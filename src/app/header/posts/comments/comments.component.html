@@ -32,7 +32,7 @@
   <div class="commentsMainContainer">
     <div class="commentsContainer">
       <div
-        *ngFor="let comment of comments$ | async"
+        *ngFor="let comment of resolvedComments"
         class="commentCardContainer"
       >
         <img class="avatar" src="../../../../assets/imgs/avatar.jpg" />

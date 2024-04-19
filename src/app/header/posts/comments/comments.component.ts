@@ -56,6 +56,7 @@ export class CommentsComponent implements OnInit {
     if (!name.trim() || !commentBody.trim()) {
       return;
     }
+    console.log(name);
     const newComment = {
       name: name.trim(),
       body: commentBody.trim(),
@@ -67,8 +68,8 @@ export class CommentsComponent implements OnInit {
         console.log('New user and post added successfully:', response);
         this.saveToLocalStorage(newComment);
 
-        this.comments.push(newComment);
-
+        this.resolvedComments.push(newComment);
+        console.log(this.comments, newComment);
         this.addCommentForm.reset();
       },
       (error) => {
@@ -82,7 +83,6 @@ export class CommentsComponent implements OnInit {
     const match = currentCommentUrl.match(/\d+$/);
     if (match) {
       this.parseNumber = parseInt(match[0], 10);
-      console.log('parse', this.parseNumber);
     }
     // this.comments$ = this.apiService.getAllComments(this.parseNumber);
     this.comments$ = this.apiService.getAllComments(this.parseNumber);
