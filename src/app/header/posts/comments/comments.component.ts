@@ -69,7 +69,6 @@ export class CommentsComponent implements OnInit {
         this.saveToLocalStorage(newComment);
 
         this.resolvedComments.push(newComment);
-        console.log(this.comments, newComment);
         this.addCommentForm.reset();
       },
       (error) => {
