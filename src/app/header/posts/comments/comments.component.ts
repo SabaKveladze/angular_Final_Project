@@ -83,7 +83,6 @@ export class CommentsComponent implements OnInit {
     if (match) {
       this.parseNumber = parseInt(match[0], 10);
     }
-    // this.comments$ = this.apiService.getAllComments(this.parseNumber);
     this.comments$ = this.apiService.getAllComments(this.parseNumber);
     this.comments$.subscribe(
       (comments) => {
