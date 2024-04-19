@@ -6,6 +6,7 @@ import { Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Body } from '../../../interfaces/body.interface';
 import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, of } from 'rxjs';
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
@@ -21,6 +22,8 @@ export class CommentsComponent implements OnInit {
   postId!: number;
   editedTitle: String = '';
   editedBody: String = '';
+  comments$: Observable<Comments[]> | null = null;
+  resolvedComments: Comments[] = [];
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -32,9 +35,7 @@ export class CommentsComponent implements OnInit {
       body: ['', [Validators.required]],
     });
   }
-  onSubmit(formValue: any) {
-  
-  }
+
   saveToLocalStorage(newComment: any) {
     let comments = JSON.parse(localStorage.getItem('comments') || '[]');
     comments.unshift(newComment);
@@ -65,7 +66,7 @@ export class CommentsComponent implements OnInit {
       (response) => {
         console.log('New user and post added successfully:', response);
         this.saveToLocalStorage(newComment);
-       
+
         this.comments.push(newComment);
 
         this.addCommentForm.reset();
@@ -75,26 +76,33 @@ export class CommentsComponent implements OnInit {
       }
     );
   }
- 
 
   ngOnInit(): void {
+    const currentCommentUrl = window.location.href;
+    const match = currentCommentUrl.match(/\d+$/);
+    if (match) {
+      this.parseNumber = parseInt(match[0], 10);
+      console.log('parse', this.parseNumber);
+    }
+    // this.comments$ = this.apiService.getAllComments(this.parseNumber);
+    this.comments$ = this.apiService.getAllComments(this.parseNumber);
+    this.comments$.subscribe(
+      (comments) => {
+        this.resolvedComments = comments;
+      },
+      (error) => {
+        console.error('Error fetching comments:', error);
+      }
+    );
+
     this.apiService.getComments().subscribe((Comments) => {
       this.comments = Comments;
     });
     this.apiService.getBody().subscribe((bodyData) => {
       this.bodyData = bodyData;
     });
-    console.log(this.bodyData);
     this.route.params.subscribe((params) => {
       this.postId = params['postId'];
-     
-
-      console.log(
-        'Data => ',
-        this.bodyData?.find((Data: any) => Data.id === +this.postId)
-      );
-      console.log('BodyDATA', this.bodyData);
-      console.log('Post ID:', this.postId);
     });
     const currentUrl = window.location.href;
     const matches = currentUrl.match(/\d+$/);

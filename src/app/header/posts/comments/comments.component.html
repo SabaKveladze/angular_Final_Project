@@ -31,7 +31,10 @@
   </app-modal>
   <div class="commentsMainContainer">
     <div class="commentsContainer">
-      <div *ngFor="let comment of comments" class="commentCardContainer">
+      <div
+        *ngFor="let comment of comments$ | async"
+        class="commentCardContainer"
+      >
         <img class="avatar" src="../../../../assets/imgs/avatar.jpg" />
         <div class="comment">
           <h3>{{ comment.name }}</h3>

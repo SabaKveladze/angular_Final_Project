@@ -40,6 +40,13 @@ export class ApiService {
   //     'https://jsonplaceholder.typicode.com/albums/1/photos'
   //   );
   // }
+  getAllComments(id: number): Observable<Comments[]> {
+    return this.http
+      .get<Comments[]>(
+        `https://jsonplaceholder.typicode.com/posts/${id}/comments`
+      )
+      .pipe(catchError(handleFunction));
+  }
   addNewComment(newComment: {
     postId: Number;
     id: Number;

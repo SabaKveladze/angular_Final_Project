@@ -16,7 +16,7 @@ export class PostsComponent implements OnInit {
   openPostForm() {
     this.isActive = !this.isActive;
   }
- 
+
   goToPost(postId: number): void {
     this.router.navigate(['/posts', postId]);
   }
@@ -37,9 +37,7 @@ export class PostsComponent implements OnInit {
     });
   }
   openEditModal(post: PostsComponent) {
-   
     this.isEditModalOpen = true;
-  
   }
   onSubmit(formValue: any) {
     this.users = [
@@ -63,7 +61,7 @@ export class PostsComponent implements OnInit {
 
     // this.localstorageService.saveData(title, value.title);
     // this.localstorageService.saveData(body, value.body);
-    // this.localstorageService.saveData(user, value.user); 
+    // this.localstorageService.saveData(user, value.user);
   }
   get title() {
     return this.addPostForm.get('title');
@@ -76,14 +74,13 @@ export class PostsComponent implements OnInit {
   }
   newUser = '';
   storage = 'local-app';
- 
+
   saveToLocalStorage(newPost: any) {
     let posts = JSON.parse(localStorage.getItem('posts') || '[]');
     posts.push(newPost);
     localStorage.setItem('posts', JSON.stringify(posts));
   }
 
-  
   getUserName(userId: number): String {
     const user = this.users?.find((user) => user.id === userId);
     return user ? user.name : '';
@@ -106,7 +103,7 @@ export class PostsComponent implements OnInit {
       (response) => {
         console.log('New user and post added successfully:', response);
         this.saveToLocalStorage(newPost);
-        
+
         this.bodyText.push(newPost);
 
         this.addPostForm.reset();
@@ -118,7 +115,6 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
     this.apiService.getUsers().subscribe((users) => {
       this.users = users;
     });
