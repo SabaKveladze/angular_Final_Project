@@ -35,11 +35,7 @@ export class ApiService {
       .get<Photo[]>(`${this.apiUrl}/albums/${albumId}/photos`)
       .pipe(catchError(handleFunction));
   }
-  // getPhotos(): Observable<Photo[]> {
-  //   return this.http.get<Photo[]>(
-  //     'https://jsonplaceholder.typicode.com/albums/1/photos'
-  //   );
-  // }
+
   getAllComments(id: number): Observable<Comments[]> {
     return this.http
       .get<Comments[]>(
